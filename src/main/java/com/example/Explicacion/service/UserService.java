@@ -70,4 +70,9 @@ public class UserService {
 
         return Optional.of(existing);
     }
+    // Eliminar usuario
+    public boolean delete(Long id) {
+        return storage.remove(id) != null;
+    }
+
 }

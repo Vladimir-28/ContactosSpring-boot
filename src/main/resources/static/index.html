@@ -176,6 +176,23 @@
             flex:1;
         }
 
+        .delete-btn{
+            margin-top:8px;
+            background:linear-gradient(135deg,#ef4444,#dc2626);
+            color:white;
+            border:none;
+            border-radius:10px;
+            padding:8px;
+            cursor:pointer;
+            transition:.2s;
+        }
+
+        .delete-btn:hover{
+            background:linear-gradient(135deg,#dc2626,#b91c1c);
+            transform:scale(1.05);
+        }
+
+
     </style>
 </head>
 
@@ -184,7 +201,7 @@
 <div class="container">
 
     <header>
-        <h1>🔥 Gestión de Usuarios</h1>
+        <h1>🔥 Gestión de Contactos</h1>
         <p>Demo frontend + Spring Boot backend</p>
     </header>
 
@@ -192,7 +209,7 @@
 
         <!-- CREAR -->
         <section class="panel">
-            <h2>➕ Crear Usuario</h2>
+            <h2>➕ Crear Contacto</h2>
             <div class="form-group">
                 <input id="name" type="text" placeholder="Nombre completo">
                 <input id="phone" type="text" placeholder="Teléfono (10 dígitos)">
@@ -217,7 +234,7 @@
 
     <!-- LISTA -->
     <section class="panel" style="margin-top:2rem;">
-        <h2>📋 Lista de Usuarios</h2>
+        <h2>📋 Lista de Contactos</h2>
         <button onclick="loadUsers()">Cargar Usuarios</button>
         <div id="user-list"></div>
     </section>
@@ -244,8 +261,16 @@
             msg.innerHTML=`<span class="error">${JSON.stringify(data.errors)}</span>`;
         }else{
             msg.innerHTML=`<span class="success">✅ Usuario creado — ID ${data.id}</span>`;
+
+            // 🔥 REFRESCAR LISTA AUTOMÁTICAMENTE
+            loadUsers();
+
+            // Limpiar inputs
+            document.getElementById("name").value="";
+            document.getElementById("phone").value="";
         }
     }
+
 
     async function getUser(){
         const id=document.getElementById("userId").value;
@@ -280,14 +305,36 @@
 
         users.forEach(u=>{
             list.innerHTML+=`
-            <div class="user-card">
-                <b>ID:</b> ${u.id}<br>
-                <b>Nombre:</b> ${u.name}<br>
-                <b>Teléfono:</b> ${u.phone}
-            </div>
-        `;
+        <div class="user-card">
+            <b>ID:</b> ${u.id}<br>
+            <b>Nombre:</b> ${u.name}<br>
+            <b>Teléfono:</b> ${u.phone}<br><br>
+
+            <button class="delete-btn" onclick="deleteUser(${u.id})">
+                🗑 Eliminar
+            </button>
+        </div>
+    `;
         });
     }
+
+    async function deleteUser(id){
+
+        if(!confirm("¿Eliminar este usuario?")) return;
+
+        const response = await fetch("/users/" + id, {
+            method:"DELETE"
+        });
+
+        if(response.ok){
+            loadUsers();   // 🔥 RECARGAR LISTA
+        } else {
+            alert("Error al eliminar");
+        }
+    }
+
+
+
 </script>
 
 </body>

@@ -62,4 +62,19 @@ public class UserController {
                                 .body(Map.of("error", "Usuario no encontrado"))
                 );
     }
+
+    // 5) Eliminar usuario
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+
+        boolean deleted = service.delete(id);
+
+        if (!deleted) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error","Usuario no encontrado"));
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
 }
