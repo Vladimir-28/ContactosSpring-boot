@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Demo Usuarios</title>
+    <title>Agenda de contactos</title>
 
     <!-- FONT -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -201,29 +201,28 @@
 <div class="container">
 
     <header>
-        <h1>🔥 Gestión de Contactos</h1>
-        <p>Demo frontend + Spring Boot backend</p>
+        <h1>Gestión de Contactos</h1>
     </header>
 
     <div class="grid">
 
         <!-- CREAR -->
         <section class="panel">
-            <h2>➕ Crear Contacto</h2>
+            <h2>Crear Contacto</h2>
             <div class="form-group">
                 <input id="name" type="text" placeholder="Nombre completo">
                 <input id="phone" type="text" placeholder="Teléfono (10 dígitos)">
-                <button onclick="createUser()">Crear Usuario</button>
+                <button onclick="createUser()">Crear Contacto</button>
                 <p id="create-msg"></p>
             </div>
         </section>
 
         <!-- BUSCAR -->
         <section class="panel">
-            <h2>🔍 Buscar por ID</h2>
+            <h2>Buscar por ID</h2>
 
             <div class="search-box">
-                <input id="userId" type="number" placeholder="ID del usuario">
+                <input id="userId" type="number" placeholder="ID del Contacto">
                 <button onclick="getUser()">Buscar</button>
             </div>
 
@@ -234,8 +233,8 @@
 
     <!-- LISTA -->
     <section class="panel" style="margin-top:2rem;">
-        <h2>📋 Lista de Contactos</h2>
-        <button onclick="loadUsers()">Cargar Usuarios</button>
+        <h2>Lista de Contactos</h2>
+        <button onclick="loadUsers()">Cargar Contactos</button>
         <div id="user-list"></div>
     </section>
 
@@ -260,7 +259,7 @@
         if(!response.ok){
             msg.innerHTML=`<span class="error">${JSON.stringify(data.errors)}</span>`;
         }else{
-            msg.innerHTML=`<span class="success">✅ Usuario creado — ID ${data.id}</span>`;
+            msg.innerHTML=`<span class="success">✅ Contacto creado — ID ${data.id}</span>`;
 
             // 🔥 REFRESCAR LISTA AUTOMÁTICAMENTE
             loadUsers();
@@ -281,7 +280,7 @@
         const r=await fetch("/users/"+id);
 
         if(!r.ok){
-            box.innerHTML="<p class='error'>❌ Usuario no encontrado</p>";
+            box.innerHTML="<p class='error'>❌ Contacto no encontrado</p>";
             return;
         }
 
@@ -320,7 +319,7 @@
 
     async function deleteUser(id){
 
-        if(!confirm("¿Eliminar este usuario?")) return;
+        if(!confirm("¿Eliminar este Contacto?")) return;
 
         const response = await fetch("/users/" + id, {
             method:"DELETE"
